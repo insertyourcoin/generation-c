@@ -1,0 +1,21 @@
+.container
+  %h2 Sign up
+  .alert.alert-danger
+    %button{type: "button", class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"}}
+      &times;
+    = devise_error_messages!
+  .col-md-4
+    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+
+      = f.label :email
+      = f.email_field :email, autofocus: true, class: "form-control"
+
+      = f.label :password
+      = f.password_field :password, autocomplete: "off", class: "form-control"
+
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation, autocomplete: "off", class: "form-control"
+      %br
+      = f.submit "Sign up", class: "btn btn-primary"
+
+    = render "devise/shared/links"

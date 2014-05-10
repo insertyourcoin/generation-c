@@ -1,0 +1,15 @@
+.container
+  %h2 Forgot your password?
+  .alert.alert-danger
+    %button{type: "button", class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"}}
+      &times;
+    = devise_error_messages!
+
+  .col-md-4
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+
+      = f.label :email
+      = f.email_field :email, autofocus: true, class: "form-control"
+      %br
+      = f.submit "Send", class: "btn btn-primary"
+    = render "devise/shared/links"

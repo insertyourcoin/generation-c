@@ -1,0 +1,24 @@
+.container
+  -if !@rule_results.empty?
+    .list-group
+      -@rule_results.each do |result|
+        .list-group-item
+          %h4{class: "list-group-item-heading"}
+            =result[:name]
+          %p{class: "list-group-item-text"}
+            =result[:description]
+            %span{class: "pull-right"}
+              =link_to "Add to my rules", add_rule_path(result[:id]), class: "btn-sm btn-primary", method: :post, remote: true
+  -if !@grid_results.empty?
+    .list-group
+      -@grid_results.each do |result|
+        .list-group-item
+          %h4{class: "list-group-item-heading"}
+            =result[:name]
+          %p{class: "list-group-item-text"}
+            =result[:description]
+            %span{class: "pull-right"}
+              =link_to "Add to my grids", add_grid_path(result[:id]), class: "btn-sm btn-info", method: :post, remote: true
+  -if @rule_results.empty? && @grid_results.empty?
+    .alert.alert-info
+      Sorry, your query has no matches.

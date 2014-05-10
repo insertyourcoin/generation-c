@@ -1,0 +1,4 @@
+development:
+  port: 9312
+  enable_star: 1
+  min_infix_len: 3

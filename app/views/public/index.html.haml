@@ -1,0 +1,22 @@
+.container
+  .row
+    .col-md-8
+      %div{style: "height:70%;overflow-y:auto;", id: "chat"}
+    .col-md-2
+      %h4 Users
+      %ul{id: 'user-list'}
+  %hr
+  .col-md-4
+    .input-group
+      %input{type: "text", class: "form-control", id: "message"}
+      %span{class: "input-group-addon", id: "send"} Send
+
+  %style
+    span {
+    cursor: pointer;
+    }
+  :javascript
+    chat = new Chat.Controller("#{request.host}:#{request.port}/websocket", true);
+    $("#chat_link").click(function() {
+      window.location.reload();
+    });

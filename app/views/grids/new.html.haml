@@ -1,0 +1,40 @@
+.container
+  .h2 Add new grid
+  -if flash[:error]
+    .alert.alert-danger
+      %button{type: "button", class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"}}
+        &times;
+      =flash[:error]
+  .row
+    .col-md-4
+      =form_for @grid do |f|
+        =f.label :name
+        =f.text_field :name, autofocus: true, class: 'form-control'
+
+        =f.label :description
+        =f.text_area :description, class: 'form-control'
+        %br
+        =f.submit "Add", class: 'btn btn-default'
+        %a{class: 'btn btn-default pull-right', id: 'pull-down'} Add points
+      %br
+  %hr
+  %br
+  :javascript
+    var grid;
+    $("canvas").live('click', function (event) {
+          var canvas = document.getElementsByTagName('canvas')[0];
+          var x = event.pageX - canvas.offsetLeft;
+          var y = event.pageY - canvas.offsetTop;
+
+          var row = Math.floor(y/grid.cellSize);
+          var col = Math.floor(x/grid.cellSize);
+          grid.setCell(row, col);
+          grid.drawGrid();
+      });
+    $('#pull-down').click(function(event) {
+        grid = new Grid(document.body.clientWidth, document.body.clientHeight*1.1, 12);
+        event.preventDefault();
+        var n = $(document).height();
+        $('html, body').animate({ scrollTop: n }, 500);
+    });
+

@@ -1,0 +1,38 @@
+.container
+  %h2
+    Edit
+    = resource_name.to_s.humanize
+  .row
+    .alert.alert-danger
+      %button{type: "button", class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"}}
+        &times;
+      = devise_error_messages!
+
+    -if devise_mapping.confirmable? && resource.pending_reconfirmation?
+      .alert.alert-warning
+        Currently waiting confirmation for:
+        = resource.unconfirmed_email
+    .col-md-4
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+
+        = f.label :email
+        = f.email_field :email, class: 'form-control', rel: 'tooltip', data: {toggle: "tooltip", placement: "bottom", title: "You will need to reconfirm your email after you change it"}
+
+        = f.label :password
+        = f.password_field :password, autocomplete: "off", class: 'form-control', rel: 'tooltip', data: {toggle: "tooltip", placement: "top", title: "Leave blank if you don't want to change your password"}
+
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', rel: 'tooltip', data: {toggle: "tooltip", placement: "top", title: "Leave blank if you don't want to change your password"}
+
+        = f.label :current_password
+        = f.password_field :current_password, autocomplete: "off", class: 'form-control', rel: 'tooltip', data: {toggle: "tooltip", placement: "top", title: "We need your current password to confirm your changes"}
+        %br
+        = f.submit "Update", class: 'btn btn-default'
+    .col-md-3.pull-right
+      %h3 Cancel my account
+
+      %p
+        Unhappy?
+        = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'btn btn-danger'
+
+  = link_to "Back", :back

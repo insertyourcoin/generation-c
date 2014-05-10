@@ -1,0 +1,39 @@
+.container
+  .h2 Edit a rule
+  -if flash[:error]
+    .alert.alert-danger
+      %button{type: "button", class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"}}
+        &times;
+      =flash[:error]
+  .col-md-4
+    =form_for @rule do |f|
+      =f.label :name
+      =f.text_field :name, autofocus: true, class: 'form-control'
+
+      =f.label :description
+      =f.text_area :description, class: 'form-control'
+      %br
+      .panel.panel-default
+        .panel-heading
+          %h4{class: "panel-title"}
+            Amount of neighbours to turn a cell off:
+        .panel-body
+          -9.times do |i|
+            -if @rule[:turn_off][i] == '1'
+              =check_box_tag "dead_#{i}", '1', true
+            -else
+              =check_box_tag "dead_#{i}", '1', false
+            =label_tag "dead_#{i}", i
+      .panel.panel-default
+        .panel-heading
+          %h4{class: "panel-title"}
+            Amount of neighbours to turn a cell on:
+        .panel-body
+          -9.times do |i|
+            -if @rule[:turn_on][i] == '1'
+              =check_box_tag "alive_#{i}", '1', true
+            -else
+              =check_box_tag "alive_#{i}", '1', false
+            =label_tag "alive_#{i}", i
+          %br
+      =f.submit "Add", class: 'btn btn-default'
