@@ -8,7 +8,7 @@ class Game
   numberOfRows: null
   numberOfColumns: null
   seedProbability: 0.5
-  tickLength: 50
+  tickLength: 500
   canvas: null
   drawingContext: null
 
@@ -19,6 +19,7 @@ class Game
     @turn_on_rule = turn_on_rule.toString()
     @turn_off_rule = turn_off_rule.toString()
 
+    @initializeArrays()
     @createCanvas()
     @resizeCanvas()
     @createDrawingContext()
@@ -53,6 +54,21 @@ class Game
     @drawGrid()
 
 
+  increaseCells: ->
+    #clearTimeout(@timeout)
+    @cellSize = @cellSize * 2
+    @numberOfColumns = @numberOfColumns / 2
+    @numberOfRows = @numberOfRows / 2
+    @drawBorders()
+    #@tick()
+
+  decreaseCells: ->
+    #clearTimeout(@timeout)
+    @cellSize = @cellSize / 2
+    @numberOfColumns = @numberOfColumns * 2
+    @numberOfRows = @numberOfRows * 2
+    @drawBorders()
+    #@tick()
 
   emptyField: ->
     @seedWithDeadCellsOnly()
@@ -91,14 +107,23 @@ class Game
 
 
 
+  initializeArrays: ->
+    @currentCellGeneration = []
+    @previousCellGeneration = []
+    for row in [0..999]
+      @currentCellGeneration[row] = []
+      @previousCellGeneration[row] = []
+      for column in [0..999]
+        seedCell = @createCell row, column, false
+        seedInv = @createCell row, column, true
+        @currentCellGeneration[row][column] = seedCell
+        @previousCellGeneration[row][column] = seedInv
+    alert(1000)
+
 
 
   seedWithDeadCellsOnly: ->
-    @currentCellGeneration = []
-    @previousCellGeneration = []
     for row in [0...@numberOfRows]
-      @currentCellGeneration[row] = []
-      @previousCellGeneration[row] = []
       for column in [0...@numberOfColumns]
         seedCell = @createCell row, column, false
         seedInv = @createCell row, column, true
@@ -126,11 +151,7 @@ class Game
 
 
   seed: ->
-    @currentCellGeneration = []
-    @previousCellGeneration = []
     for row in [0...@numberOfRows]
-      @currentCellGeneration[row] = []
-      @previousCellGeneration[row] = []
       for column in [0...@numberOfColumns]
         seedCell = @createSeedCell row, column
         @currentCellGeneration[row][column] = seedCell
@@ -205,7 +226,6 @@ class Game
 
   evolveCellGeneration: ->
     newCellGeneration = []
-
     for row in [0...@numberOfRows]
       newCellGeneration[row] = []
 

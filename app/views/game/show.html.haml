@@ -1,7 +1,8 @@
 =content_tag "div", '', id: "rule", data: {turn_on: @rule.turn_on, turn_off: @rule.turn_off}
 =content_tag "div", '', id: "grid", data: {coordinates: @grid}
 .container
-  %center
+  .col-md-offset-6
+  .col-md-2
     %button{id: "pause", style: "display: none", class: "btn btn-sm btn-primary"} Pause
     -if @mode != "random"
       %button{id: "play", class: "btn btn-sm btn-primary"} Play
@@ -9,6 +10,9 @@
       %button{id: "demo", class: "btn btn-sm btn-primary"} Start
       %button{id: "play", class: "btn btn-sm btn-primary", style: "display: none"} Play
     %button{id: "next", class: "btn btn-sm btn-default"} Next step
+  .col-md-2.pull-right
+    %button{id: "inc", class: "btn btn-sm btn-success"} Increase
+    %button{id: "dec", class: "btn btn-sm btn-warning"} Decrease
 %hr
 %br
 :javascript
@@ -22,7 +26,15 @@
         $("#pause").hide()
         $("#play").show()
         $("#next").show()
+        game.pauseDemo()
+    });
 
+    $("#inc").click(function () {
+      game.increaseCells();
+    });
+
+    $("#dec").click(function () {
+      game.decreaseCells();
     });
 
     $("#play").live('click', function () {
