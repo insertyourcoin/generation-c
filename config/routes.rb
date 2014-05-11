@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  get 'search/results'
 
+  get 'search/results'
   get 'welcome/index'
   get 'welcome/index_unauthorized'
   get 'rules/new'
@@ -10,9 +10,11 @@ Rails.application.routes.draw do
   match '/users/:id/add_email', to: 'users#add_email', via: [:get, :patch, :post], as: "add_user_email"
   match 'rule/:id/add', to: 'rules#add', as: 'add_rule', via: [:post]
   match 'grid/:id/add', to: 'grids#add', as: 'add_grid', via: [:post]
-  get 'game/show'
+  match 'game/show/:rule_id/:grid_id', to: 'game#show', as: 'start_game', via: [:get]
   get 'public/index'
   get 'public/red'
+  match 'grid/create', to: "grids#create", as: "create_grid", via: [:post]
+  match 'locale/change', to: 'locale#change', as: "change_locale", via: [:get]
   # devise_for :users
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   # The priority is based upon order of creation: first created -> highest priority.

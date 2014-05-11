@@ -1,0 +1,28 @@
+ru:
+  hello: "Сасай, лалка)00"
+  light: Светлая
+  dark: Темная
+  search: Поиск
+  chat: Чат
+  themes: Тема
+  language: Язык
+  sign_in: Войти
+  sign_out: Выйти
+  sign_up: Зарегистрироваться
+  language_en: English
+  language_ru: Русский
+  add: Добавить
+  edit_rule: Редактировать
+  show_grids: Показать сетки
+  rules:
+    turn_on: Количество соседей, включающих клетку
+    turn_off: Количество соседей, выключающих клетку
+    your: Ваши правила
+    edit: Редактировать правило
+    name: Имя
+    description: Описание
+    prompt_start: Вы еще не создали правил. Может, пора
+    create: создать
+    prompt_end: одно?
+    add: Добавить правило
+

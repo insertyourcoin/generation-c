@@ -20,4 +20,29 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  light: Light
+  dark: Dark
   hello: "Hello world"
+  search: Search
+  chat: Chat
+  themes: Themes
+  language: Language
+  sign_in: Sign in
+  sign_out: Sign out
+  sign_up: Sign up
+  language_en: English
+  language_ru: Русский
+  add: Add
+  edit_rule: Edit rule
+  show_grids: Show grids
+  rules:
+    turn_on: Amount of neighbours to turn a cell on
+    turn_off: Amount of neighbours to turn a cell off
+    your: Your rules
+    edit: Edit rule
+    name: Name
+    description: Description
+    prompt_start: You haven't added any rule. Maybe it's time to
+    create: create
+    prompt_end: one?
+    add: Add new rule

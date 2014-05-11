@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140507162242) do
+ActiveRecord::Schema.define(version: 20140510153559) do
 
   create_table "color_schemes", force: true do |t|
     t.string   "scheme"
@@ -20,6 +20,14 @@ ActiveRecord::Schema.define(version: 20140507162242) do
   end
 
   create_table "coordinates", force: true do |t|
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "grid_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "coords", force: true do |t|
     t.integer  "x"
     t.integer  "y"
     t.integer  "grid_id"

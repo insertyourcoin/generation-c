@@ -1,5 +1,6 @@
 .container
-  %h2 Your rules
+  %h2
+    =t "rules.your"
   -if !configurations_list.empty?
     .list-group
       -configurations_list.each do |rule|
@@ -9,15 +10,15 @@
           %p{class: "list-group-item-text"}
             =rule[:description]
             %span{class: "pull-right"}
-              =link_to "Edit rule", edit_rule_path(rule[:id]), class: "btn-sm btn-info"
+              =link_to "#{t :edit_rule}", edit_rule_path(rule[:id]), class: "btn-sm btn-info"
               &nbsp;
-              =link_to "Show grids", rule_grids_path(rule[:id]), class: "btn-sm btn-primary"
+              =link_to "#{t :show_grids}", rule_grids_path(rule[:id]), class: "btn-sm btn-primary"
 
   -else
     .alert.alert-info
-      You haven't added any rule. Maybe it's time to
-      =link_to "create", rules_new_path
-      one?
+      =t "rules.prompt_start"
+      =link_to "#{t "rules.create"}", rules_new_path
+      =t "rules.prompt_end"
   %br
   =link_to options = {action: :new, controller: :rules}, html_options = {class: "btn btn-default"} do
-    Add
+    =t :add

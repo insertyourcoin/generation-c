@@ -1,5 +1,6 @@
 .container
-  .h2 Edit a rule
+  .h2
+    =t "rules.edit"
   -if flash[:error]
     .alert.alert-danger
       %button{type: "button", class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"}}
@@ -7,16 +8,16 @@
       =flash[:error]
   .col-md-4
     =form_for @rule do |f|
-      =f.label :name
+      =f.label "#{t "rules.name"}"
       =f.text_field :name, autofocus: true, class: 'form-control'
 
-      =f.label :description
+      =f.label "#{t "rules.description"}"
       =f.text_area :description, class: 'form-control'
       %br
       .panel.panel-default
         .panel-heading
           %h4{class: "panel-title"}
-            Amount of neighbours to turn a cell off:
+            =t "rules.turn_off"
         .panel-body
           -9.times do |i|
             -if @rule[:turn_off][i] == '1'
@@ -27,7 +28,7 @@
       .panel.panel-default
         .panel-heading
           %h4{class: "panel-title"}
-            Amount of neighbours to turn a cell on:
+            =t "rules.turn_on"
         .panel-body
           -9.times do |i|
             -if @rule[:turn_on][i] == '1'
@@ -36,4 +37,4 @@
               =check_box_tag "alive_#{i}", '1', false
             =label_tag "alive_#{i}", i
           %br
-      =f.submit "Add", class: 'btn btn-default'
+      =f.submit "#{t :add}", class: 'btn btn-default'

@@ -19,39 +19,49 @@
             %span{class: "icon-bar"}
             %span{class: "icon-bar"}
             %span{class: "icon-bar"}
-          %a{ class: "navbar-brand", href: '/'}Generation Cellular
-
+          =link_to "Generation Cellular", root_path, class: "navbar-brand"
         %nav{class: "collapse navbar-collapse", id: "bs-navbar-collapse"}
-          =form_tag options = {action: :results, controller: :search}, html_options = {class: 'navbar-form navbar-left'} do
-            .form-group
-              =text_field_tag 'query', nil, class: "form-control", placeholder: 'Search'
-            %button{type: 'submit', class: 'btn btn-default'}Search
+
           %ul{ class: "nav navbar-nav navbar-right"}
             -if user_signed_in?
               %li
-                =link_to edit_user_registration_path do
-                  =current_user.email
+                =form_tag "/search/results", class: 'navbar-form navbar-left' do
+                  .form-group
+                    =text_field_tag 'query', nil, class: "form-control"
+                  %button{type: 'submit', class: 'btn btn-default'}
+                    =t :search
               %li
-                =link_to options = {action: "index", controller: "public"}, html_options = {id: "chat_link"} do
-                  Chat
+                =link_to "#{current_user.email}", edit_user_registration_path
               %li
-                =link_to destroy_user_session_path, method: :delete do
-                  Sign out
+                =link_to "public/index",id: "chat_link" do
+                  =t :chat
             -else
               %li
                 =link_to new_user_session_path do
-                  Sign in
+                  =t :sign_in
               %li
                 =link_to new_user_registration_path do
-                  Sign up
+                  =t :sign_up
             -if user_signed_in?
               %li{ class: "dropdown"}
                 =link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
-                  Themes
+                  =t :themes
                   %b{class: "caret"}
                 %ul{class: "dropdown-menu"}
                   -scheme_list.each do |scheme|
                     %li
-                      =link_to scheme.scheme, scheme_change_path(id: scheme.id), method: :post
+                      =link_to "#{t scheme.scheme.downcase}", scheme_change_path(id: scheme.id), method: :post
+              %li{ class: "dropdown"}
+                =link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
+                  =t :language
+                  %b{class: "caret"}
+                %ul{class: "dropdown-menu"}
+                  %li
+                    =link_to "English", change_locale_path(locale: :en)
+                  %li
+                    =link_to "Русский", change_locale_path(locale: :ru)
+              %li
+                =link_to destroy_user_session_path, method: :delete do
+                  =t :sign_out
     =yield
 

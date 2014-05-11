@@ -1,7 +1,7 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-class GameOfLife
+class Game
   currentCellGeneration: null
   cellSize: null
   numberOfRows: null
@@ -11,28 +11,112 @@ class GameOfLife
   canvas: null
   drawingContext: null
 
-  constructor: (@width, @height, @cell) ->
+  constructor: (@width, @height, @cell, turn_on_rule, turn_off_rule) ->
     @cellSize = @cell
     @numberOfColumns = @width/@cellSize
     @numberOfRows = (@height/@cellSize)/(0.6*@width/@height)
+    @turn_on_rule = turn_on_rule.toString()
+    @turn_off_rule = turn_off_rule.toString()
+
     @createCanvas()
     @resizeCanvas()
     @createDrawingContext()
+    @seedWithDeadCellsOnly()
+#    @drawGrid()
 
+#    @tick()
+
+  getCurrentSellGeneration: ->
+    @currentCellGeneration
+
+  getAliveCells: ->
+    @aliveCells = []
+
+    for row in [0...@numberOfRows]
+      for column in [0...@numberOfColumns]
+        if @currentCellGeneration[row][column].isAlive
+          @aliveCells.push @currentCellGeneration[row][column]
+
+    @aliveCells
+
+
+  setGrid:(json) ->
+    a = @currentCellGeneration
+    $.each json, (key, value) ->
+      a[value.y][value.x].isAlive = true
+    @drawGrid()
+
+
+
+  emptyField: ->
+    @seedWithDeadCellsOnly()
+    @drawGrid()
+
+  demo: ->
     @seed()
+    @drawGrid()
 
+  startDemo: ->
+    @seed()
     @tick()
+
+  play: ->
+    @tick()
+
+  randomSeed: ->
+    @seed()
+    @drawGrid()
+
+  pauseDemo: ->
+    clearTimeout(@timeout)
+
+  nextStep: ->
+    @evolveCellGeneration()
+    @drawGrid()
+
+
+  setCell: (row, col) ->
+    currCell = @currentCellGeneration[row][col]
+    if (currCell.isAlive)
+      currCell.isAlive = false
+    else
+      currCell.isAlive = true
+    @drawCell(currCell)
+
+
+
+
+
+  seedWithDeadCellsOnly: ->
+    @currentCellGeneration = []
+
+    for row in [0...@numberOfRows]
+      @currentCellGeneration[row] = []
+
+      for column in [0...@numberOfColumns]
+        seedCell = @createCell row, column, false
+        @currentCellGeneration[row][column] = seedCell
+
+
+  createCell: (row, column, isAlive) ->
+    isAlive: isAlive
+    row: row
+    column: column
+
 
   createCanvas: ->
     @canvas = document.createElement 'canvas'
     document.body.appendChild @canvas
 
+
   resizeCanvas: ->
     @canvas.height = @cellSize * @numberOfRows
     @canvas.width = @cellSize * @numberOfColumns
 
+
   createDrawingContext: ->
     @drawingContext = @canvas.getContext '2d'
+
 
   seed: ->
     @currentCellGeneration = []
@@ -44,15 +128,21 @@ class GameOfLife
         seedCell = @createSeedCell row, column
         @currentCellGeneration[row][column] = seedCell
 
+
+
+
+
   createSeedCell: (row, column) ->
     isAlive: Math.random() < @seedProbability
     row: row
     column: column
 
+
   drawGrid: ->
     for row in [0...@numberOfRows]
       for column in [0...@numberOfColumns]
         @drawCell @currentCellGeneration[row][column]
+
 
   drawCell: (cell) ->
     x = cell.column * @cellSize
@@ -63,17 +153,26 @@ class GameOfLife
     else
       fillStyle = 'rgb(252, 252, 252)'
 
-    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 0.2)'
+    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 0.3)'
     @drawingContext.strokeRect x, y, @cellSize, @cellSize
 
     @drawingContext.fillStyle = fillStyle
     @drawingContext.fillRect x, y, @cellSize, @cellSize
 
+
+
+
   tick: =>
     @drawGrid()
     @evolveCellGeneration()
 
-    setTimeout @tick, @tickLength
+    @timeout = setTimeout @tick, @tickLength
+
+
+
+
+
+
 
   evolveCellGeneration: ->
     newCellGeneration = []
@@ -87,6 +186,9 @@ class GameOfLife
 
     @currentCellGeneration = newCellGeneration
 
+
+
+
   evolveCell: (cell) ->
     evolvedCell =
       row: cell.row
@@ -94,11 +196,21 @@ class GameOfLife
       isAlive: cell.isAlive
 
     numberOfAliveNeighbors = @countAliveNeighbors cell
+    if cell.isAlive == true
+      if @turn_off_rule[numberOfAliveNeighbors] == '1'
+        evolvedCell.isAlive = false
+    else
+      if @turn_on_rule[numberOfAliveNeighbors] == '1'
+        evolvedCell.isAlive = true
 
-    if cell.isAlive or numberOfAliveNeighbors is 3
-      evolvedCell.isAlive = 1 < numberOfAliveNeighbors < 4
+    #    if cell.isAlive or numberOfAliveNeighbors is 3
+    #      evolvedCell.isAlive = 1 < numberOfAliveNeighbors < 4
 
     evolvedCell
+
+# живая: если клетка живая и число соседей 2, 3
+# живая: если клетка метрвая но число соседей 3
+
 
   countAliveNeighbors: (cell) ->
     lowerRowBound = Math.max cell.row - 1, 0
@@ -116,4 +228,5 @@ class GameOfLife
 
     numberOfAliveNeighbors
 
-window.GameOfLife = GameOfLife
+
+window.Game = Game

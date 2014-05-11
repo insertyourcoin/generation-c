@@ -1,2 +1,61 @@
+=content_tag "div", '', id: "rule", data: {turn_on: @rule.turn_on, turn_off: @rule.turn_off}
+=content_tag "div", '', id: "grid", data: {coordinates: @grid}
+.container
+  %center
+    %button{id: "pause", style: "display: none", class: "btn btn-sm btn-primary"} Pause
+    -if @mode != "random"
+      %button{id: "play", class: "btn btn-sm btn-primary"} Play
+    -else
+      %button{id: "demo", class: "btn btn-sm btn-primary"} Start
+      %button{id: "play", class: "btn btn-sm btn-primary", style: "display: none"} Play
+    %button{id: "next", class: "btn btn-sm btn-default"} Next step
+%hr
+%br
 :javascript
-  new GameOfLife(document.body.clientWidth, document.body.clientHeight, 2);
+  var json = $("#grid").data('coordinates')
+  var turn_on_rule = $("#rule").data('turn-on')
+  var turn_off_rule = $("#rule").data('turn-off')
+  game = new Game(document.body.clientWidth, document.body.clientHeight, 10, turn_on_rule, turn_off_rule);
+  game.setGrid(json);
+
+    $("#pause").live('click', function () {
+        $("#pause").hide()
+        $("#play").show()
+        $("#next").show()
+
+    });
+
+    $("#play").live('click', function () {
+        $("#play").hide()
+        $("#demo").hide()
+        $("#next").hide()
+        $("#pause").show()
+        game.play()
+    });
+
+    $("canvas").live('click', function (event) {
+        var canvas = document.getElementsByTagName('canvas')[0];
+        var x = event.pageX - canvas.offsetLeft;
+        var y = event.pageY - canvas.offsetTop;
+
+        var row = Math.floor(y / game.cellSize);
+        var col = Math.floor(x / game.cellSize);
+        game.setCell(row, col);
+        game.drawGrid();
+    });
+
+    $("#demo").live('click', function () {
+        game.startDemo();
+        $("#play").hide()
+        $("#demo").hide()
+        $("#next").hide()
+        $("#pause").show()
+    });
+
+    $("#pause").live('click', function () {
+        game.pauseDemo();
+    });
+
+    $("#next").live('click', function () {
+        game.nextStep();
+    });

@@ -14,7 +14,7 @@
         =f.label :description
         =f.text_area :description, class: 'form-control'
         %br
-        =f.submit "Add", class: 'btn btn-default'
+        %a{class: 'btn btn-default pull-right', id: 'save'} Save
         %a{class: 'btn btn-default pull-right', id: 'pull-down'} Add points
       %br
   %hr
@@ -37,4 +37,18 @@
         var n = $(document).height();
         $('html, body').animate({ scrollTop: n }, 500);
     });
+    $('#save').click(function(event) {
+            event.preventDefault();
+            alert(1000);
+            var url = "#{create_grid_path}";
+            var arr = grid.getAliveCells()
+            var value_desc = $('#grid_name').val()
+            var value_name = $('#grid_description').val()
+            alert(url);
+            $.ajax({
+                type: "post",
+                url: url,
+                data: {grid: arr, desc: value_desc, name: value_name}
+            });
+        });
 

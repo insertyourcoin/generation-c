@@ -206,5 +206,16 @@ class Grid
 
     numberOfAliveNeighbors
 
+  getAliveCells: ->
+    @aliveCells = []
+
+    for row in [0...@numberOfRows]
+      for column in [0...@numberOfColumns]
+        if @currentCellGeneration[row][column].isAlive
+          @aliveCells.push @currentCellGeneration[row][column]
+
+    @aliveCells
+
+
 
 window.Grid = Grid
