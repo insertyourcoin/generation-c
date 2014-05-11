@@ -22,6 +22,7 @@ class Game
     @resizeCanvas()
     @createDrawingContext()
     @seedWithDeadCellsOnly()
+    @drawBorders()
 #    @drawGrid()
 
 #    @tick()
@@ -143,6 +144,26 @@ class Game
       for column in [0...@numberOfColumns]
         @drawCell @currentCellGeneration[row][column]
 
+  drawBorders: ->
+    for row in [0...@numberOfRows]
+      for column in [0...@numberOfColumns]
+        @drawBorderedCell @currentCellGeneration[row][column]
+
+
+  drawBorderedCell: (cell) ->
+    x = cell.column * @cellSize
+    y = cell.row * @cellSize
+
+    if cell.isAlive
+      fillStyle = 'rgb(132, 132, 132)'
+    else
+      fillStyle = 'rgb(252, 252, 252)'
+
+    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 1)'
+    @drawingContext.strokeRect x, y, @cellSize, @cellSize
+
+    @drawingContext.fillStyle = fillStyle
+    @drawingContext.fillRect x+1, y+1, @cellSize-1, @cellSize-1
 
   drawCell: (cell) ->
     x = cell.column * @cellSize
@@ -153,11 +174,11 @@ class Game
     else
       fillStyle = 'rgb(252, 252, 252)'
 
-    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 0.3)'
-    @drawingContext.strokeRect x, y, @cellSize, @cellSize
+#    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 1)'
+#    @drawingContext.strokeRect x, y, @cellSize, @cellSize
 
     @drawingContext.fillStyle = fillStyle
-    @drawingContext.fillRect x, y, @cellSize, @cellSize
+    @drawingContext.fillRect x+1, y+1, @cellSize-1, @cellSize-1
 
 
 
