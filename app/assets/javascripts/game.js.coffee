@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 class Game
   currentCellGeneration: null
+  previousCellGeneration: null
   cellSize: null
   numberOfRows: null
   numberOfColumns: null
@@ -27,7 +28,7 @@ class Game
 
 #    @tick()
 
-  getCurrentSellGeneration: ->
+  getCurrentCellGeneration: ->
     @currentCellGeneration
 
   getAliveCells: ->
@@ -42,9 +43,13 @@ class Game
 
 
   setGrid:(json) ->
+    i = 0
     a = @currentCellGeneration
+    b = @previousCellGeneration
     $.each json, (key, value) ->
       a[value.y][value.x].isAlive = true
+      b[value.y][value.x].isAlive = false
+      i++
     @drawGrid()
 
 
@@ -90,14 +95,15 @@ class Game
 
   seedWithDeadCellsOnly: ->
     @currentCellGeneration = []
-
+    @previousCellGeneration = []
     for row in [0...@numberOfRows]
       @currentCellGeneration[row] = []
-
+      @previousCellGeneration[row] = []
       for column in [0...@numberOfColumns]
         seedCell = @createCell row, column, false
+        seedInv = @createCell row, column, true
         @currentCellGeneration[row][column] = seedCell
-
+        @previousCellGeneration[row][column] = seedInv
 
   createCell: (row, column, isAlive) ->
     isAlive: isAlive
@@ -121,14 +127,15 @@ class Game
 
   seed: ->
     @currentCellGeneration = []
-
+    @previousCellGeneration = []
     for row in [0...@numberOfRows]
       @currentCellGeneration[row] = []
-
+      @previousCellGeneration[row] = []
       for column in [0...@numberOfColumns]
         seedCell = @createSeedCell row, column
         @currentCellGeneration[row][column] = seedCell
-
+        @previousCellGeneration[row][column] = @currentCellGeneration[row][column]
+        @previousCellGeneration[row][column].isAlive = !@previousCellGeneration[row][column].isAlive
 
 
 
@@ -142,7 +149,8 @@ class Game
   drawGrid: ->
     for row in [0...@numberOfRows]
       for column in [0...@numberOfColumns]
-        @drawCell @currentCellGeneration[row][column]
+        if(@currentCellGeneration[row][column] != @previousCellGeneration[row][column])
+          @drawCell @currentCellGeneration[row][column]
 
   drawBorders: ->
     for row in [0...@numberOfRows]
@@ -204,7 +212,7 @@ class Game
       for column in [0...@numberOfColumns]
         evolvedCell = @evolveCell @currentCellGeneration[row][column]
         newCellGeneration[row][column] = evolvedCell
-
+    @previousCellGeneration = @currentCellGeneration
     @currentCellGeneration = newCellGeneration
 
 
