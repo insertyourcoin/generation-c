@@ -113,3 +113,6 @@ en:
     next: Step
     increase: Increase
     decrease: Decrease
+  admin:
+    rules: Rules
+    grids: Grids

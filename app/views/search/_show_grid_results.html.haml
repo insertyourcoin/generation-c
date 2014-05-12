@@ -1,0 +1,26 @@
+%h2
+  =t "admin.grids"
+-if !@grids.empty?
+  .list-group
+    -@grids.each do |result|
+      .list-group-item
+        %h4{class: "list-group-item-heading"}
+          =result[:name]
+        %p{class: "list-group-item-text"}
+          =result[:description]
+          %span{class: "pull-right"}
+            -if result_add_link result
+              =link_to "Add to my grids", add_grid_path(result[:id]), class: "btn-sm btn-info", method: :post, remote: true
+            -else
+              %span{class: "btn-sm btn-success"}
+                =t "search_results.already"
+-else
+  .alert.alert-info
+    =t "search_results.sorry"
+=will_paginate @grids
+:javascript
+  $(".pagination a").click(function () {
+    event.preventDefault();
+    var url = event.toElement.href;
+    $("#content").load(url);
+  });

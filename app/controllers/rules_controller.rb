@@ -15,6 +15,16 @@ class RulesController < ApplicationController
     end
   end
 
+  def user_rules
+    @rules = Rule.where(user_id: current_user.id).paginate(:page => params[:page], :per_page => 3)
+    render partial: "user_rules"
+  end
+
+  def shared_rules
+    @rules = Rule.where(user_id: 0).paginate(:page => params[:page], :per_page => 3)
+    render partial: "shared_rules"
+  end
+
   def index
 
   end

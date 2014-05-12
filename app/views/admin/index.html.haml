@@ -1,6 +1,16 @@
 .container
-  -@rules.each do |rule|
-    =link_to "Destroy rule #{rule[:name]} with description #{rule[:description]} #{User.find(rule[:user_id])[:email] if rule[:user_id] != 0}", admin_destroy_rule_path(rule[:id]), method: :delete
-    %br
+  %button{class: "btn btn-default", id: "show_rules"} Rules
+  %button{class: "btn btn-default", id: "show_grids"} Grids
+  %div{id: "content"}
 
-  =will_paginate @rules
+:javascript
+
+  $("#show_rules").click(function () {
+    $("#content").load("#{admin_show_all_rules_path}");
+  });
+  $("#show_grids").click(function () {
+    $("#content").load("#{admin_show_all_grids_path}");
+  });
+  $(document).ready(function () {
+    $("#show_rules").trigger('click');
+  });

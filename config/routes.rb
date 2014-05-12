@@ -21,6 +21,12 @@ Rails.application.routes.draw do
   match 'grid/create', to: "grids#create", as: "create_grid", via: [:post]
   match 'locale/change', to: 'locale#change', as: "change_locale", via: [:get]
   match 'game/jump', to: "game#jump", as: "game_jump", via: [:post]
+  get 'rules/user_rules'
+  get 'rules/shared_rules'
+  get 'admin/show_all_rules'
+  get 'admin/show_all_grids'
+  get 'search/show_rule_results'
+  get 'search/show_grid_results'
   # devise_for :users
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   # The priority is based upon order of creation: first created -> highest priority.

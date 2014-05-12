@@ -92,3 +92,9 @@ ru:
     next: Шаг
     increase: Увеличить
     decrease: Уменьшить
+  admin:
+    rules: Правила
+    grids: Сетки
+  will_paginate:
+    next_label: Вперед
+    previous_label: Назад

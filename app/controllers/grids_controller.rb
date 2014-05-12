@@ -1,8 +1,9 @@
 class GridsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @grids = Grid.where(user_id: current_user.id)
+    @grids = Grid.where(user_id: current_user.id).paginate(:page => params[:page], :per_page => 1)
   end
+
   def new
     @grid = Grid.new
   end

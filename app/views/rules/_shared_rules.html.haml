@@ -1,0 +1,18 @@
+%h2
+  =t "rules.shared"
+.list-group
+  -@rules.each do |rule|
+    .list-group-item
+      %h4{class: "list-group-item-heading"}
+        =rule[:name]
+      %p{class: "list-group-item-text"}
+        =rule[:description]
+        %span{class: "pull-right"}
+          =link_to "#{t :show_grids}", rule_grids_path(rule[:id]), class: "btn-sm btn-primary"
+=will_paginate @rules
+:javascript
+  $(".pagination a").click(function () {
+    event.preventDefault();
+    var url = event.toElement.href;
+    $("#content").load(url);
+  });

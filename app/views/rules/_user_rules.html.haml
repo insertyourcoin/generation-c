@@ -1,0 +1,32 @@
+%h2
+  =t "rules.your"
+-if !@rules.empty?
+  .list-group
+    -@rules.each do |rule|
+      .list-group-item
+        %h4{class: "list-group-item-heading"}
+          =rule[:name]
+        %p{class: "list-group-item-text"}
+          =rule[:description]
+          %span{class: "pull-right"}
+            =link_to "#{t :edit_rule}", edit_rule_path(rule[:id]), class: "btn-sm btn-info"
+            &nbsp;
+            =link_to "#{t :show_grids}", rule_grids_path(rule[:id]), class: "btn-sm btn-primary"
+            &nbsp;
+            =link_to "#{t "rules.destroy"}", rule_path(rule[:id]), method: :delete, class: "btn-sm btn-danger"
+
+-else
+  .alert.alert-info
+    =t "rules.prompt_start"
+    =link_to "#{t "rules.create"}", rules_new_path
+    =t "rules.prompt_end"
+  %br
+  =link_to options = {action: :new, controller: :rules}, html_options = {class: "btn btn-default"} do
+    =t :add
+=will_paginate @rules
+:javascript
+  $(".pagination a").click(function () {
+    event.preventDefault();
+    var url = event.toElement.href;
+    $("#content").load(url);
+  });

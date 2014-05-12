@@ -22,8 +22,7 @@
       =t "grids.prompt_start"
       =link_to t "grids.create", create_grid_path
       =t "grids.prompt_end"
+  =will_paginate @grids
   %br
   =link_to "#{t "add"}", new_grid_path, class: "btn btn-default"
-  %h2
-    =t "grids.patterns"
   =link_to "#{t "grids.random"}", start_game_path(params[:rule_id], :random), class: "btn btn-default"
