@@ -1,4 +1,5 @@
 class RulesController < ApplicationController
+  before_action :authenticate_user!
   def new
     @rule = Rule.new
   end
@@ -22,8 +23,17 @@ class RulesController < ApplicationController
 
   end
 
+  def error
+
+  end
+
   def edit
-    @rule = Rule.find(params[:id])
+    rule = Rule.find(params[:id])
+    if(current_user.id != rule[:user_id])
+      redirect_to rules_error_path
+    else
+      @rule = rule
+    end
   end
 
   def turn_on_string_from_params

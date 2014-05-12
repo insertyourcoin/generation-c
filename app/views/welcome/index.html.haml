@@ -1,1 +1,10 @@
 .container
+  .jumbotron
+    %h1
+      =t "welcome.heading"
+      %small
+        =t "welcome.slogan"
+    %p
+      =t "welcome.description"
+    =link_to new_user_registration_path, class: "btn btn-lg btn-success" do
+      =t "welcome.try"

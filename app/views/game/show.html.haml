@@ -1,25 +1,42 @@
 =content_tag "div", '', id: "rule", data: {turn_on: @rule.turn_on, turn_off: @rule.turn_off}
 =content_tag "div", '', id: "grid", data: {coordinates: @grid}
+=content_tag "div", '', id: "background-color", data: {color: get_background_color}
+=content_tag "div", '', id: "grid-color", data: {color: get_grid_color}
+=content_tag "div", '', id: "on-color", data: {color: get_on_color}
+=content_tag "div", '', id: "off-color", data: {color: get_off_color}
 .container
   .col-md-offset-6
   .col-md-2
-    %button{id: "pause", style: "display: none", class: "btn btn-sm btn-primary"} Pause
-    -if @mode != "random"
-      %button{id: "play", class: "btn btn-sm btn-primary"} Play
-    -else
-      %button{id: "demo", class: "btn btn-sm btn-primary"} Start
-      %button{id: "play", class: "btn btn-sm btn-primary", style: "display: none"} Play
-    %button{id: "next", class: "btn btn-sm btn-default"} Next step
+    .row
+      %button{id: "pause", style: "display: none", class: "btn btn-sm btn-primary"}
+        =t "game.pause"
+      -if @mode != "random"
+        %button{id: "play", class: "btn btn-sm btn-primary"}
+          =t "game.play"
+      -else
+        %button{id: "demo", class: "btn btn-sm btn-primary"}
+          =t "game.start"
+        %button{id: "play", class: "btn btn-sm btn-primary", style: "display: none"}
+          =t "game.play"
+      %button{id: "next", class: "btn btn-sm btn-default"}
+        =t "game.next"
   .col-md-2.pull-right
-    %button{id: "inc", class: "btn btn-sm btn-success"} Increase
-    %button{id: "dec", class: "btn btn-sm btn-warning"} Decrease
+    .row
+      %button{id: "inc", class: "btn btn-sm btn-success"}
+        =t "game.increase"
+      %button{id: "dec", class: "btn btn-sm btn-warning"}
+        =t "game.decrease"
 %hr
 %br
 :javascript
   var json = $("#grid").data('coordinates')
   var turn_on_rule = $("#rule").data('turn-on')
   var turn_off_rule = $("#rule").data('turn-off')
-  game = new Game(document.body.clientWidth, document.body.clientHeight, 10, turn_on_rule, turn_off_rule);
+  var background_color = $("#background-color").data("color")
+  var grid_color = $("#grid-color").data("color")
+  var on_color = $("#on-color").data("color")
+  var off_color = $("#off-color").data("color")
+  game = new Game(document.body.clientWidth, document.body.clientHeight, 10, turn_on_rule, turn_off_rule, background_color, grid_color, on_color, off_color);
   game.setGrid(json);
 
     $("#pause").live('click', function () {
@@ -41,6 +58,8 @@
         $("#play").hide()
         $("#demo").hide()
         $("#next").hide()
+        $("#inc").hide()
+        $("#dec").hide()
         $("#pause").show()
         game.play()
     });
@@ -62,6 +81,8 @@
         $("#demo").hide()
         $("#next").hide()
         $("#pause").show()
+        $("#inc").hide()
+        $("#dec").hide()
     });
 
     $("#pause").live('click', function () {

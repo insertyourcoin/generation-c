@@ -5,7 +5,7 @@
     -if user_signed_in?
       =stylesheet_link_tag    current_user.color_scheme.get_url, media: 'all', 'data-turbolinks-track' => true
     -else
-      =stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+      =stylesheet_link_tag    'bootstrap-flatly.min', media: 'all', 'data-turbolinks-track' => true
     =javascript_include_tag 'application', 'data-turbolinks-track' => true
     %script{src: "//code.jquery.com/jquery-migrate-1.2.1.min.js"}
 
@@ -25,7 +25,7 @@
           %ul{ class: "nav navbar-nav navbar-right"}
             -if user_signed_in?
               %li
-                =form_tag "/search/results", class: 'navbar-form navbar-left' do
+                =form_tag search_results_path, class: 'navbar-form navbar-left' do
                   .form-group
                     =text_field_tag 'query', nil, class: "form-control"
                   %button{type: 'submit', class: 'btn btn-default'}
@@ -33,7 +33,7 @@
               %li
                 =link_to "#{current_user.email}", edit_user_registration_path
               %li
-                =link_to "public/index",id: "chat_link" do
+                =link_to public_index_path,id: "chat_link" do
                   =t :chat
             -else
               %li
@@ -51,15 +51,16 @@
                   -scheme_list.each do |scheme|
                     %li
                       =link_to "#{t scheme.scheme.downcase}", scheme_change_path(id: scheme.id), method: :post
-              %li{ class: "dropdown"}
-                =link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
-                  =t :language
-                  %b{class: "caret"}
-                %ul{class: "dropdown-menu"}
-                  %li
-                    =link_to "English", change_locale_path(locale: :en)
-                  %li
-                    =link_to "Русский", change_locale_path(locale: :ru)
+            %li{ class: "dropdown"}
+              =link_to "#", class: "dropdown-toggle", data: {toggle: "dropdown"} do
+                =t :language
+                %b{class: "caret"}
+              %ul{class: "dropdown-menu"}
+                %li
+                  =link_to "English", change_locale_path(locale: :en)
+                %li
+                  =link_to "Русский", change_locale_path(locale: :ru)
+            -if user_signed_in?
               %li
                 =link_to destroy_user_session_path, method: :delete do
                   =t :sign_out

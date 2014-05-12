@@ -3,13 +3,15 @@
     .col-md-8
       %div{style: "height:70%;overflow-y:auto;", id: "chat"}
     .col-md-2
-      %h4 Users
+      %h4
+        =t "public.users"
       %ul{id: 'user-list'}
   %hr
   .col-md-4
     .input-group
       %input{type: "text", class: "form-control", id: "message"}
-      %span{class: "input-group-addon", id: "send"} Send
+      %span{class: "input-group-addon", id: "send"}
+        =t "public.send"
 
   %style
     span {
@@ -19,4 +21,7 @@
     chat = new Chat.Controller("#{request.host}:#{request.port}/websocket", true);
     $("#chat_link").click(function() {
       window.location.reload();
+    });
+    $(window).unload(function() {
+      chat.dispatcher._conn.close();
     });

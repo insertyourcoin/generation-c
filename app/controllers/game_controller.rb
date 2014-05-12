@@ -1,4 +1,5 @@
 class GameController < ApplicationController
+  before_action :authenticate_user!
   def show
     params.require(:rule_id)
     params.require(:grid_id)

@@ -1,11 +1,11 @@
+=content_tag "div", '', id: "grid", data: {coordinates: @cells}
 =content_tag "div", '', id: "background-color", data: {color: get_background_color}
 =content_tag "div", '', id: "grid-color", data: {color: get_grid_color}
 =content_tag "div", '', id: "on-color", data: {color: get_on_color}
 =content_tag "div", '', id: "off-color", data: {color: get_off_color}
-
 .container
   .h2
-    =t "grids.add"
+    =t "grids.edit"
   -if flash[:error]
     .alert.alert-danger
       %button{type: "button", class: "close", data: {dismiss: "alert"}, aria: {hidden: "true"}}
@@ -14,6 +14,7 @@
   .row
     .col-md-4
       =form_for @grid do |f|
+        =f.text_field :id, style: "display: none", id: "grid_id"
         =f.label t "grids.name"
         =f.text_field :name, autofocus: true, class: 'form-control'
 
@@ -26,8 +27,8 @@
         %a{class: 'btn btn-default pull-right', id: 'pull-down'}
           =t "grids.add_points"
       %br
-  %hr
-  %br
+    %hr
+    %br
   :javascript
     var grid;
     var background_color = $("#background-color").data("color")
@@ -45,23 +46,25 @@
           grid.drawGrid();
       });
     $('#pull-down').click(function(event) {
+        var json = $("#grid").data('coordinates');
         grid = new Grid(document.body.clientWidth, document.body.clientHeight*1.1, 12, background_color, grid_color, on_color, off_color);
+        grid.setGrid(json);
         event.preventDefault();
         var n = $(document).height();
         $('html, body').animate({ scrollTop: n }, 500);
         $("#save").show();
+
     });
     $('#save').click(function(event) {
             event.preventDefault();
-            var url = "#{create_grid_path}";
+            var url = "#{grid_path}";
             var arr = grid.getAliveCells()
             var value_name = $('#grid_name').val()
             var value_desc = $('#grid_description').val()
-            alert(url);
+            var value_id = $('#grid_id').val()
             $.ajax({
-                type: "post",
+                type: "patch",
                 url: url,
                 data: {grid: arr, desc: value_desc, name: value_name}
             });
         });
-

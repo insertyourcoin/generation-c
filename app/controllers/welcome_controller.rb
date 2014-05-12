@@ -4,7 +4,4 @@ class WelcomeController < ApplicationController
       redirect_to rules_path
     end
   end
-  def index_unauthorized
-
-  end
 end

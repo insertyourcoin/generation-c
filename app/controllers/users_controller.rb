@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, :add_email
+  before_action :set_user, :add_email, :authenticate_user!
       def add_email
         if params[:user] && params[:user][:email]
           current_user.email = params[:user][:email]

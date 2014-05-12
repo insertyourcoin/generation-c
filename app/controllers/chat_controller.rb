@@ -1,6 +1,6 @@
 class ChatController < WebsocketRails::BaseController
   include ActionView::Helpers::SanitizeHelper
-
+  before_action :authenticate_user!
   def initialize_session
     @first_request = true
     puts "Session Initialized\n"
@@ -49,6 +49,7 @@ class ChatController < WebsocketRails::BaseController
 
   def broadcast_user_list
     users = connection_store.collect_all(:user)
+    users.uniq!
     broadcast_message :user_list, users
   end
 

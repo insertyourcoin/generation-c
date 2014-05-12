@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get 'welcome/index'
   get 'welcome/index_unauthorized'
   get 'rules/new'
+  get 'rules/error'
   match 'scheme/change/:id', to: "scheme#change", as: "scheme_change", via: [:post]
   match 'search/results', to: 'search#results', via: [:post]
   match '/users/:id/add_email', to: 'users#add_email', via: [:get, :patch, :post], as: "add_user_email"

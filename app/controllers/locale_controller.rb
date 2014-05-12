@@ -3,6 +3,6 @@ class LocaleController < ApplicationController
     params.require(:locale)
     params.permit(:locale)
     I18n.locale = params[:locale]
-    redirect_to rules_path
+    redirect_to root_path
   end
 end

@@ -35,6 +35,7 @@ en:
   add: Add
   edit_rule: Edit rule
   show_grids: Show grids
+  back: Back
   rules:
     turn_on: Amount of neighbours to turn a cell on
     turn_off: Amount of neighbours to turn a cell off
@@ -46,3 +47,67 @@ en:
     create: create
     prompt_end: one?
     add: Add new rule
+    shared: Shared rules
+    error: Oops
+    sorry: This isn't a rule you're looking for!
+  public:
+    users: Users
+    send: Send
+  grids:
+    index: Your grids
+    index_additional: Try your rules on them!
+    edit: Edit
+    play: Play!
+    prompt_start: You haven't added any grid. Maybe it's time to
+    create: create
+    prompt_end: one?
+    patterns: Grid patterns
+    random: Play random
+    add: Add new grid
+    name: Name
+    description: Description
+    save: Save
+    add_points: Add points
+    error: Oops
+    sorry: This isn't a grid you're looking for!
+  search_results:
+    sorry: Sorry, your query has no matches
+    already: Already in your list!
+  welcome:
+    heading: Generation Cellular
+    description: Create rules, match grids to them and enjoy your cells evolving!
+    slogan: Make them move!
+    try: Try it out
+  devise:
+    confirmations:
+      resend_instructions_header: Resend confirmation instructions
+    email: Email
+    send: Send
+    forgot_password_header: Forgot your password?
+    sign_in_header: Sign in
+    password: Password
+    remember: Remember me?
+    sign_in: Sign in
+    sign_up_header: Sign up
+    password_confirmation: Confirm your password
+    sign_up: Sign up
+    email_prompt: You will need to reconfirm your email after you change it
+    password_blank_prompt: Leave blank if you don't want to change your password
+    current_password_prompt: We need your current password to confirm your changes
+    edit_user: Edit user information
+    waiting_confirmation: We're still waiting confirmation for
+    current_password: Current password
+    update: Update
+    cancel_header: Cancel my account
+    cancel_question: Unhappy?
+    cancel_button: Cancel
+    forgot: Forgot your password?
+    confirm: Didn't receive confirmation instructions?
+    sign_in_with: Sign in with
+  game:
+    pause: Pause
+    play: Play
+    start: Start
+    next: Step
+    increase: Increase
+    decrease: Decrease

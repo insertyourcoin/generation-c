@@ -1,6 +1,8 @@
 .container
-  %h2 Your grids.
-  %h4 Try your rules on them, don't be shy!
+  %h2
+    =t "grids.index"
+  %h4
+    =t "grids.index_additional"
   -if !@grids.empty?
     .list-group
       -@grids.each do |grid|
@@ -10,16 +12,16 @@
           %p{class: "list-group-item-text"}
             =grid[:description]
             %span{class: "pull-right"}
-              =link_to "Edit grid", edit_grid_path(grid[:id]), class: "btn-sm btn-info"
+              =link_to "#{t "grids.edit"}", edit_grid_path(grid[:id]), class: "btn-sm btn-info"
               &nbsp;
-              =link_to "Play!", start_game_path(params[:rule_id], grid[:id]), class: "btn-sm btn-primary"
-
-
+              =link_to "#{t "grids.play"}", start_game_path(params[:rule_id], grid[:id]), class: "btn-sm btn-primary"
   -else
     .alert.alert-info
-      You haven't added any grid. Maybe it's time to
-      =link_to "create", new_grid_path
-      one?
-
-  %h2 Grid patterns
-  =link_to "Play random!", start_game_path(params[:rule_id], :random), class: "btn btn-default"
+      =t "grids.prompt_start"
+      =link_to t "grids.create", create_grid_path
+      =t "grids.prompt_end"
+  %br
+  =link_to "#{t "add"}", new_grid_path, class: "btn btn-default"
+  %h2
+    =t "grids.patterns"
+  =link_to "#{t "grids.random"}", start_game_path(params[:rule_id], :random), class: "btn btn-default"

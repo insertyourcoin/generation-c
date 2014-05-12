@@ -14,6 +14,7 @@ ru:
   add: Добавить
   edit_rule: Редактировать
   show_grids: Показать сетки
+  back: Назад
   rules:
     turn_on: Количество соседей, включающих клетку
     turn_off: Количество соседей, выключающих клетку
@@ -25,4 +26,67 @@ ru:
     create: создать
     prompt_end: одно?
     add: Добавить правило
-
+    shared: Общие правила
+    error: Ой
+    sorry: Это не то правило, что вы ищете!
+  public:
+    users: Пользователи
+    send: Отправить
+  grids:
+    index: Ваши сетки
+    index_additional: Пробуйте правила на них!
+    edit: Редактировать
+    play: Играть!
+    prompt_start: Вы еще не создали сеток. Может, пора
+    create: создать
+    prompt_end: одну?
+    patterns: Заготовки сеток
+    random: Случайная
+    add: Добавить сетку
+    name: Имя
+    description: Описание
+    save: Сохранить
+    add_points: Добавить точки
+    error: Ой
+    sorry: Это не та сетка, что вы ищете!
+  search_results:
+    sorry: Извините, но поиск по вашему запросу не дал результатов
+    already: Уже в вашем списке!
+  welcome:
+      heading: Generation Cellular
+      description: Создайте правила, примените к ним сетки и наблюдайте, как ячейки выживают!
+      slogan: Заставь их двигаться!
+      try: Попробовать
+  devise:
+    confirmations:
+      resend_instructions_header: Отправить письмо подтверждения аккаунта
+    email: Email
+    send: Отправить
+    forgot_password_header: Забыли пароль?
+    sign_in_header: Войти
+    password: Пароль
+    remember: Запомнить меня?
+    sign_in: Войти
+    sign_up_header: Зарегистрироваться
+    password_confirmation: Подтвердите пароль
+    sign_up: Зарегистрироваться
+    email_prompt: Необходимо подтверить email после его изменения
+    password_blank_prompt: Оставьте поле пустым, если не хотите менять пароль
+    current_password_prompt: Нам нужен ваш текущий пароль, чтобы сохранить изменения
+    edit_user: Редактировать информацию пользователя
+    waiting_confirmation: Мы все еще ждем подтверждения для
+    current_password: Текущий пароль
+    update: Обновить
+    cancel_header: Удалить аккаунт
+    cancel_question: Не нравится?
+    cancel_button: Удалить
+    forgot: Забыли пароль?
+    confirm: Не получили письмо подтверждения?
+    sign_in_with: Войти через
+  game:
+    pause: Пауза
+    play: Возобновить
+    start: Начать
+    next: Шаг
+    increase: Увеличить
+    decrease: Уменьшить

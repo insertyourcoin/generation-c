@@ -8,17 +8,20 @@ class Game
   numberOfRows: null
   numberOfColumns: null
   seedProbability: 0.5
-  tickLength: 500
+  tickLength: 100
   canvas: null
   drawingContext: null
 
-  constructor: (@width, @height, @cell, turn_on_rule, turn_off_rule) ->
+  constructor: (@width, @height, @cell, turn_on_rule, turn_off_rule, background_color, grid_color, on_color, off_color) ->
     @cellSize = @cell
     @numberOfColumns = @width/@cellSize
     @numberOfRows = (@height/@cellSize)/(0.6*@width/@height)
     @turn_on_rule = turn_on_rule.toString()
     @turn_off_rule = turn_off_rule.toString()
-
+    @backgroundColor = background_color.toString()
+    @gridColor = grid_color.toString()
+    @onColor = on_color.toString()
+    @offColor = off_color.toString()
     @initializeArrays()
     @createCanvas()
     @resizeCanvas()
@@ -46,12 +49,12 @@ class Game
   setGrid:(json) ->
     i = 0
     a = @currentCellGeneration
-    b = @previousCellGeneration
+#    b = @previousCellGeneration
     $.each json, (key, value) ->
       a[value.y][value.x].isAlive = true
-      b[value.y][value.x].isAlive = false
+#      b[value.y][value.x].isAlive = false
       i++
-    @drawGrid()
+    @drawBorders()
 
 
   increaseCells: ->
@@ -63,12 +66,15 @@ class Game
     #@tick()
 
   decreaseCells: ->
+    if(@cellSize >= 3)
     #clearTimeout(@timeout)
-    @cellSize = @cellSize / 2
-    @numberOfColumns = @numberOfColumns * 2
-    @numberOfRows = @numberOfRows * 2
-    @drawBorders()
-    #@tick()
+      @cellSize = @cellSize / 2
+      @numberOfColumns = @numberOfColumns * 2
+      @numberOfRows = @numberOfRows * 2
+      @drawingContext.fillStyle = @backgroundColor
+      @drawingContext.fillRect(0, 0, @width, @height)
+      @drawBorders()
+      #@tick()
 
   emptyField: ->
     @seedWithDeadCellsOnly()
@@ -87,7 +93,7 @@ class Game
 
   randomSeed: ->
     @seed()
-    @drawGrid()
+#    @drawGrid()
 
   pauseDemo: ->
     clearTimeout(@timeout)
@@ -110,15 +116,14 @@ class Game
   initializeArrays: ->
     @currentCellGeneration = []
     @previousCellGeneration = []
-    for row in [0..999]
+    for row in [0..250]
       @currentCellGeneration[row] = []
       @previousCellGeneration[row] = []
-      for column in [0..999]
+      for column in [0..550]
         seedCell = @createCell row, column, false
         seedInv = @createCell row, column, true
         @currentCellGeneration[row][column] = seedCell
         @previousCellGeneration[row][column] = seedInv
-    alert(1000)
 
 
 
@@ -157,7 +162,8 @@ class Game
         @currentCellGeneration[row][column] = seedCell
         @previousCellGeneration[row][column] = @currentCellGeneration[row][column]
         @previousCellGeneration[row][column].isAlive = !@previousCellGeneration[row][column].isAlive
-
+        null
+    @drawBorders()
 
 
 
@@ -168,10 +174,14 @@ class Game
 
 
   drawGrid: ->
+    i = 0
     for row in [0...@numberOfRows]
       for column in [0...@numberOfColumns]
-        if(@currentCellGeneration[row][column] != @previousCellGeneration[row][column])
+        if(@currentCellGeneration[row][column].isAlive != @previousCellGeneration[row][column].isAlive)
           @drawCell @currentCellGeneration[row][column]
+          i++
+    console.log(i)
+
 
   drawBorders: ->
     for row in [0...@numberOfRows]
@@ -184,11 +194,11 @@ class Game
     y = cell.row * @cellSize
 
     if cell.isAlive
-      fillStyle = 'rgb(132, 132, 132)'
+      fillStyle = @onColor
     else
-      fillStyle = 'rgb(252, 252, 252)'
+      fillStyle = @offColor
 
-    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 1)'
+    @drawingContext.strokeStyle = @gridColor
     @drawingContext.strokeRect x, y, @cellSize, @cellSize
 
     @drawingContext.fillStyle = fillStyle
@@ -199,9 +209,9 @@ class Game
     y = cell.row * @cellSize
 
     if cell.isAlive
-      fillStyle = 'rgb(132, 132, 132)'
+      fillStyle = @onColor
     else
-      fillStyle = 'rgb(252, 252, 252)'
+      fillStyle = @offColor
 
 #    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 1)'
 #    @drawingContext.strokeRect x, y, @cellSize, @cellSize
@@ -221,15 +231,21 @@ class Game
 
 
 
+#  evolveCellGeneration: ->
+#    @previousCellGeneration = @currentCellGeneration
+#    for row in [0..@numberOfRows]
+#      for column in [0..@numberOfColumns]
+#        @currentCellGeneration[row][column] = @evolveCell @currentCellGeneration[row][column]
+
 
 
 
   evolveCellGeneration: ->
     newCellGeneration = []
-    for row in [0...@numberOfRows]
+    for row in [0...@numberOfRows] by 1
       newCellGeneration[row] = []
 
-      for column in [0...@numberOfColumns]
+      for column in [0...@numberOfColumns] by 1
         evolvedCell = @evolveCell @currentCellGeneration[row][column]
         newCellGeneration[row][column] = evolvedCell
     @previousCellGeneration = @currentCellGeneration
@@ -256,10 +272,6 @@ class Game
     #      evolvedCell.isAlive = 1 < numberOfAliveNeighbors < 4
 
     evolvedCell
-
-# живая: если клетка живая и число соседей 2, 3
-# живая: если клетка метрвая но число соседей 3
-
 
   countAliveNeighbors: (cell) ->
     lowerRowBound = Math.max cell.row - 1, 0

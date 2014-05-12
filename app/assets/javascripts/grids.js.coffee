@@ -15,20 +15,38 @@ class Grid
   drawingContext: null
   timeout: 0
 
-  constructor: (@width, @height, @cell) ->
+  constructor: (@width, @height, @cell, background_color, grid_color, on_color, off_color) ->
     @cellSize = @cell
     @numberOfColumns = @width/@cellSize
     @numberOfRows = (@height/@cellSize)/(0.6*@width/@height)
-
+    @backgroundColor = background_color.toString()
+    @gridColor = grid_color.toString()
+    @onColor = on_color.toString()
+    @offColor = off_color.toString()
     console.log @tickLength
 
     @createCanvas()
     @resizeCanvas()
     @createDrawingContext()
 
+    @initializeArrays()
     @seedWithDeadCellsOnly()
     @drawGrid()
 #    @tick()
+
+  initializeArrays: ->
+    @currentCellGeneration = []
+    @previousCellGeneration = []
+    for row in [0..@numberOfRows]
+      @currentCellGeneration[row] = []
+      @previousCellGeneration[row] = []
+      for column in [0..@numberOfColumns]
+        seedCell = @createCell row, column, false
+        seedInv = @createCell row, column, true
+        @currentCellGeneration[row][column] = seedCell
+        @previousCellGeneration[row][column] = seedInv
+        console.log(1000)
+    return null
 
   emptyField: ->
     @seedWithDeadCellsOnly()
@@ -66,7 +84,19 @@ class Grid
       currCell.isAlive = true
     @drawCell(currCell)
 
-
+  setGrid:(json) ->
+    i = 0
+    a = @currentCellGeneration
+    #    b = @previousCellGeneration
+    $.each json, (key, value) ->
+      console.log(json)
+      console.log(a)
+      console.log(value.y)
+      a[value.y][value.x].isAlive = true
+      #      b[value.y][value.x].isAlive = false
+      i++
+    @drawGrid()
+    return null
 
 
 
@@ -79,6 +109,7 @@ class Grid
       for column in [0...@numberOfColumns]
         seedCell = @createCell row, column, false
         @currentCellGeneration[row][column] = seedCell
+        console.log(1000)
 
 
   createCell: (row, column, isAlive) ->
@@ -133,11 +164,11 @@ class Grid
     y = cell.row * @cellSize
 
     if cell.isAlive
-      fillStyle = 'rgb(132, 132, 132)'
+      fillStyle = @onColor
     else
-      fillStyle = 'rgb(252, 252, 252)'
+      fillStyle = @offColor
 
-    @drawingContext.strokeStyle = 'rgba(0, 0, 0, 0.2)'
+    @drawingContext.strokeStyle = @gridColor
     @drawingContext.strokeRect x, y, @cellSize, @cellSize
 
     @drawingContext.fillStyle = fillStyle
