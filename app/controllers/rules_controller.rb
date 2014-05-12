@@ -36,6 +36,16 @@ class RulesController < ApplicationController
     end
   end
 
+  def destroy
+    rule = Rule.find(params[:id])
+    if(current_user.id != rule[:user_id])
+      redirect_to rules_error_path
+    else
+      rule.delete
+      redirect_to root_path
+    end
+  end
+
   def turn_on_string_from_params
     turn_on = String.new("000000000")
     9.times do |i|

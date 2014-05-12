@@ -8,6 +8,7 @@
   .col-md-offset-6
   .col-md-2
     .row
+      %button{id: "save", class: "btn btn-sm btn-primary"} Jump
       %button{id: "pause", style: "display: none", class: "btn btn-sm btn-primary"}
         =t "game.pause"
       -if @mode != "random"
@@ -38,6 +39,27 @@
   var off_color = $("#off-color").data("color")
   game = new Game(document.body.clientWidth, document.body.clientHeight, 10, turn_on_rule, turn_off_rule, background_color, grid_color, on_color, off_color);
   game.setGrid(json);
+
+    $('#save').click(function(event) {
+      event.preventDefault();
+      var url = "#{game_jump_path}";
+      var rle = game.getRleString()
+      var rows = game.getRowCount();
+      var cols = game.getColCount();
+      var b_rule = game.getBRule();
+      var s_rule = game.getSRule();
+      $.ajax({
+          type: "post",
+          url: url,
+          dataType: "JSON",
+          data: {rle: rle, rows: rows, cols: cols, b: b_rule, s: s_rule},
+          success: function (data) {
+                      console.log(data);
+                    }
+      });
+
+  });
+
 
     $("#pause").live('click', function () {
         $("#pause").hide()

@@ -13,6 +13,8 @@
               =link_to "#{t :edit_rule}", edit_rule_path(rule[:id]), class: "btn-sm btn-info"
               &nbsp;
               =link_to "#{t :show_grids}", rule_grids_path(rule[:id]), class: "btn-sm btn-primary"
+              &nbsp;
+              =link_to "#{t "rules.destroy"}", rule_path(rule[:id]), method: :delete, class: "btn-sm btn-danger"
 
   -else
     .alert.alert-info

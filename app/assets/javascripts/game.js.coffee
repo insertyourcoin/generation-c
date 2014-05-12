@@ -111,6 +111,37 @@ class Game
       currCell.isAlive = true
     @drawCell(currCell)
 
+  getRowCount: ->
+    @numberOfRows
+
+  getColCount: ->
+    @numberOfColumns
+
+  getRleString: ->
+    outString = ""
+    for row in [0..@numberOfRows]
+      for column in [0..@numberOfColumns]
+        if @currentCellGeneration[row][column].isAlive
+          outString = outString + "o"
+        else
+          outString = outString + "b"
+      outString = outString + "$" if(row < @numberOfRows - 1)
+    outString = outString + "!"
+    return outString
+
+  getBRule: ->
+    rule = ""
+    for i in [0..9]
+      if @turn_on_rule[i] == '1'
+        rule = rule + i.toString()
+    return rule
+
+  getSRule: ->
+    rule = ""
+    for i in [0..9]
+      if @turn_off_rule[i] == '0'
+        rule = rule + i.toString()
+    return rule
 
 
   initializeArrays: ->

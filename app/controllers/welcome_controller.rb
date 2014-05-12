@@ -1,7 +1,6 @@
 class WelcomeController < ApplicationController
   def index
-    if user_signed_in?
-      redirect_to rules_path
-    end
+    redirect_to rules_path if user_signed_in?
+    redirect_to admin_index_path if admin_signed_in?
   end
 end

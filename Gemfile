@@ -62,3 +62,5 @@ gem 'pry-stack_explorer'
 gem 'pry-debugger'
 
 gem 'thinking-sphinx', '~> 3.1.0'
+
+gem 'will_paginate'

@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
 
 
+  devise_for :admins
+  match 'admin/destroy_rule/:id', to: "admin#destroy_rule", as: "admin_destroy_rule", via: [:delete]
+  match 'admin/destroy_grid/:id', to: "admin#destroy_grid", as: "admin_destroy_grid", via: [:delete]
   get 'search/results'
   get 'welcome/index'
   get 'welcome/index_unauthorized'
   get 'rules/new'
   get 'rules/error'
+  get 'admin/index'
   match 'scheme/change/:id', to: "scheme#change", as: "scheme_change", via: [:post]
   match 'search/results', to: 'search#results', via: [:post]
   match '/users/:id/add_email', to: 'users#add_email', via: [:get, :patch, :post], as: "add_user_email"
@@ -16,6 +20,7 @@ Rails.application.routes.draw do
   get 'public/red'
   match 'grid/create', to: "grids#create", as: "create_grid", via: [:post]
   match 'locale/change', to: 'locale#change', as: "change_locale", via: [:get]
+  match 'game/jump', to: "game#jump", as: "game_jump", via: [:post]
   # devise_for :users
   devise_for :users, :controllers => { omniauth_callbacks: 'omniauth_callbacks' }
   # The priority is based upon order of creation: first created -> highest priority.

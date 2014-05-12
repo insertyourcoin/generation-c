@@ -44,6 +44,17 @@ class GridsController < ApplicationController
 
   end
 
+  def destroy
+    params.require(:id)
+    params.permit(:id)
+    grid = Grid.find(params[:id])
+    if(current_user.id != grid[:user_id])
+      redirect_to grids_error_path
+    else
+      grid.delete
+      redirect_to root_path
+    end
+  end
 
   def update
     params.permit(:name, :desc, :id)

@@ -1,0 +1,6 @@
+.container
+  -@rules.each do |rule|
+    =link_to "Destroy rule #{rule[:name]} with description #{rule[:description]} #{User.find(rule[:user_id])[:email] if rule[:user_id] != 0}", admin_destroy_rule_path(rule[:id]), method: :delete
+    %br
+
+  =will_paginate @rules

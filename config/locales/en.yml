@@ -50,6 +50,7 @@ en:
     shared: Shared rules
     error: Oops
     sorry: This isn't a rule you're looking for!
+    destroy: Delete
   public:
     users: Users
     send: Send
@@ -70,6 +71,7 @@ en:
     add_points: Add points
     error: Oops
     sorry: This isn't a grid you're looking for!
+    destroy: Delete
   search_results:
     sorry: Sorry, your query has no matches
     already: Already in your list!
